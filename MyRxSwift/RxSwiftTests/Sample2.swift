@@ -179,14 +179,10 @@ public class Sample2 {
         
         
         loadText("someText")
-        
     }
     
-    
-    // do, debug 연산자 사용예
+    // [do, debug 연산자 사용예]
     public static func test6() {
-    
-        
         /*
         let stream = Observable<Any>.never()
           .subscribe(
@@ -240,7 +236,7 @@ public class Sample2 {
         
     }
     
-    // bind 테스트 - 간단
+    // [bind 테스트 - 간단]
     public static func test7() {
         Observable<Int>.from([1, 2, 3])
         //.debug()
@@ -255,7 +251,34 @@ public class Sample2 {
 //            print("[bind 결과]", $0)
 //        })
         .disposed(by: disposeBag)
-        
     }
+        
+
+    // [retry 테스트 - 간단]
+    public static func test8() {
+        enum MyError: Error {
+            case someError
+        }
+        
+        var retryCount = 0
+        
+        let someStream = Observable<Int>.create({ observer in
+            defer { retryCount += 1 }
+            if retryCount < 3 {
+                observer.on(.error(MyError.someError))
+            } else {
+                observer.onNext(7272727272)
+            }
+            return Disposables.create()
+        })
+        
+        someStream
+        .debug()
+        .retry(5)
+        .subscribe({ event in
+            print("[구독결과]", event)
+        })
+    }
+
     
 }

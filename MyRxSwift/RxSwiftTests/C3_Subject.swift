@@ -10,6 +10,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+// 본격적으로 서적의 소스를 실습하면서 추후 레퍼런싱 가능하도록 구성한다.
 public class C3_Subject {
     static let disposeBag = DisposeBag()
 
@@ -127,7 +128,7 @@ public class C3_Subject {
         
         let subject = BehaviorSubject(value: "=default=")
         let disposeBag = DisposeBag()
-        
+    
         subject.on(.next("크"))
         subject.on(.next("흐"))
         subject.on(.next("호"))
@@ -154,12 +155,73 @@ public class C3_Subject {
             print("[relay 결과] \($0)")
         })
     }
+    
+    // 간단 Driver 테스트
+    public static func test3_Driver() {
+        let relay = BehaviorRelay<String>(value: "")
+        let driver = relay.asDriver(onErrorJustReturn: "=default=")
+        
+        relay.accept("12345")
+        
+        driver.asObservable().subscribe(onNext: { value in
+            print("[drive 결과1] \(value)")
+        })
+              
+        driver.drive(onNext: {
+            print("[drive 결과2] \($0)")
+        })
+        
+        driver.drive { value in
+            print("[drive 결과3] \(value)")
+        }
+    }
+    
+    
+    public static func test3_ReplaySubject() {
+        enum MyError: Error {
+            case anError
+        }
+        
+        let subject = ReplaySubject<String>.create(bufferSize: 2)
+        let disposeBag = DisposeBag()
+        
+        subject.on(.next("1"))
+        subject.on(.next("2"))
+        subject.onNext("3")
+                
+        subject.subscribe {
+            print("[1] \($0)")
+        }.disposed(by: disposeBag)
+        
+        subject.subscribe {
+            print("[2] \($0)")
+        }.disposed(by: disposeBag)
+
+        subject.onNext("4")
+        subject.onError(MyError.anError)
+        subject.dispose()
+        
+        subject.onNext("55555")
+        
+        subject.subscribe {
+            print("[3] \($0)")
+        }.disposed(by: disposeBag)
+
+        
+        subject.subscribe {
+            print("[4] \($0)")
+        }.disposed(by: disposeBag)
+
+        
+    }
 
 }
 
+
+// 테스트용 extension
 extension BehaviorRelay where Element == String {
     func dispose_() {
-        print("빨통보소!")
+        print("허미 허미!")
     }
 }
 

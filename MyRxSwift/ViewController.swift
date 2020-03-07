@@ -24,6 +24,7 @@ extension Reactive where Base: UIButton {
     }
 }
 
+// MARK: ====
 class ViewController: UIViewController {
     @IBOutlet weak var swTemp: UISwitch!
     @IBOutlet weak var btnClick: UIButton!
@@ -31,38 +32,12 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // check BUMSUK Flag
-        #if BUMSUK
-        print("[BUMSUK OK]")
-        #else
-        print("[BUMSUK NG!!]")
-        #endif
-        
-        check_TRACE_RESOURCES()
-        
-        // Do any additional setup after loading the view.
-        
-        
-        
-        let relay = BehaviorRelay<String>(value: "")
-        let driver = relay.asDriver(onErrorJustReturn: "=default=")
-        
-        relay.accept("12345")
-        
-        driver.asObservable().subscribe(onNext: { value in
-            print("[drive 결과1] \(value)")
-        })
-              
-        driver.drive(onNext: {
-            print("[drive 결과2] \($0)")
-        })
-        
-        driver.drive { value in
-            print("[drive 결과3] \(value)")
-        }
                 
         
+        // check_TRACE_RESOURCES()
+        
+        // Do any additional setup after loading the view.
+                                
         // testUI_Switch()
         // testUI_Button()
         
@@ -72,10 +47,32 @@ class ViewController: UIViewController {
         // sample1_test()
         // sample2_test()
         
+        // Sample2.test8()
+        
         // C3_Subject.test0()
         // C3_Subject.test1()
-        C3_Subject.test2()
+        // C3_Subject.test2()
+        // C3_Subject.test3_ReplaySubject()
+        
+        // C3_Relay.test_PublishRelay()
+        // C3_Relay.test_BehaviorRelay()
+        // C3_Relay.test_Challange1()
+        // C3_Relay.test_Challange2()
+        
+        // C4_Operators.test1()
+        // C4_Challenge.exam1()
+        
+        // C6_Filtering_Operator.test_No_Share()
+        // C6_Filtering_Operator.test_Share()
+        // C6_Filtering_Operator.test_Share_Normal()
+        //C6_Filtering_Operator.test_Share_Sample1()
+        //C6_Filtering_Operator.test_Share_Subject()
+        
+        // C7_Transforming.test_toArray()
+        // C7_Transforming.test_map()
+        C7_Transforming.test_flatMap1()
     }
+    
     
     // TRACE_RESOURCES 확인
     func check_TRACE_RESOURCES() {
@@ -142,15 +139,3 @@ class ViewController: UIViewController {
     }
 
 }
-
-extension ViewController {
-    func sample1_test() {
-        Sample1.test1()
-    }
-    
-    func sample2_test() {
-        Sample2.test7()
-    }
-
-}
-
