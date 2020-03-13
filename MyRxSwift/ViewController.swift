@@ -32,11 +32,45 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+
+        // Do any additional setup after loading the view.
+
+        
+        let stream1 = Observable.from([1, 2, 3, 4])
+            .map { num -> String in
+                print("🤡 변환처리!")
+                return "변환 - \(num)"
+            }
+            .share(replay: 0, scope: .whileConnected)
+            .do(onNext: { print("[stream1 - onNext] \($0)") })
+
+
+        let stream2 = stream1.flatMap { (_) -> Observable<String> in .just("stream2") }
+        let stream3 = stream1.flatMap { (_) -> Observable<String> in .just("stream3") }
+        
+        Observable.merge([stream2, stream3]).subscribe(onNext: { str in
+            print("[merge] \(str)")
+        })
+        
+//        stream2.subscribe(onNext: { print("[구독 stream2] \($0)") }).disposed(by: disposeBag)
+//        stream3.subscribe(onNext: { print("[구독 stream3] \($0)") }).disposed(by: disposeBag)
+        
+        
+        // C0_Bind_Binder_Etc.test_bind_to_relays()
+        
+        // C0_MySnippet.test_delaySubscription()
+        // C0_BInd_Binder_Etc.test_bind1()
+        // C0_BInd_Binder_Etc.test_bind_to_relay()
+
+        // Multicast_Publish_Share.test_multicast()
+        // Multicast_Publish_Share.test_publish()
+        // Multicast_Publish_Share.test_replay()
+        // Multicast_Publish_Share.test_replayAll()
+        // Multicast_Publish_Share.test_share()
+        // Multicast_Publish_Share.test_share_option_test()
+        // Multicast_Publish_Share.test_share_api_requests()
         
         // check_TRACE_RESOURCES()
-        
-        // Do any additional setup after loading the view.
                                 
         // testUI_Switch()
         // testUI_Button()
@@ -59,18 +93,57 @@ class ViewController: UIViewController {
         // C3_Relay.test_Challange1()
         // C3_Relay.test_Challange2()
         
+        // C4_Operators.test_skipUntil()
         // C4_Operators.test1()
         // C4_Challenge.exam1()
+        // C4_Operators.test_timeout()
+    
         
         // C6_Filtering_Operator.test_No_Share()
         // C6_Filtering_Operator.test_Share()
         // C6_Filtering_Operator.test_Share_Normal()
-        //C6_Filtering_Operator.test_Share_Sample1()
-        //C6_Filtering_Operator.test_Share_Subject()
+        // C6_Filtering_Operator.test_Share_Sample1()
+        // C6_Filtering_Operator.test_Share_Subject()
         
         // C7_Transforming.test_toArray()
+        // C7_Transforming.test_toArray_error()
         // C7_Transforming.test_map()
-        C7_Transforming.test_flatMap1()
+        // C7_Transforming.test_flatMap1()
+        // C7_Transforming.test_flatMap1()
+        // C7_Transforming.test_flatMap_why()
+        // C7_Transforming.test_flatMapLatest2()
+        // C7_Transforming.test_Materialize()
+        // C7_Challenge.exam1_starter()
+        
+        // C9_Combining_Operators.test_startWith()
+        // C9_Combining_Operators.test_concat()
+        // C9_Combining_Operators.test_concat_withError()
+        // C9_Combining_Operators.test_concatMap1()
+        // C9_Combining_Operators.test_concatMap2()
+        // C9_Combining_Operators.test_concatMap3()
+        // C9_Combining_Operators.test_merge1()
+        // C9_Combining_Operators.test_merge2()
+        // C9_Combining_Operators.test_combineLatest()
+        // C9_Combining_Operators.test_zip()
+        // C9_Combining_Operators.test_combineLatest2()
+        // C9_Combining_Operators.test_latestFrom()
+        // C9_Combining_Operators.test_sample()
+        // C9_Combining_Operators.test_amb()
+        // C9_Combining_Operators.test_merge_with_APIs()
+        
+        // C9_Combining_Operators.test_amb_exercie()
+        // C9_Combining_Operators.test_amb_exercie2()
+        // C9_Combining_Operators.test_switchLatest()
+        // C9_Combining_Operators.test_reduce()
+        // C9_Combining_Operators.test_scan()
+        // C9_Combining_Operators.test_scan2()
+        //C9_Combining_Operators.test_scan_advance1()
+        
+        
+        // C9_Combining_Operators.test_scan_with_noZip()
+        // C9_Combining_Operators.test_scan_with_Zip()
+        
+        
     }
     
     

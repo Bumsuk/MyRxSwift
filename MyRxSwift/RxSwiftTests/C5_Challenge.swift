@@ -24,12 +24,9 @@ public class C4_Challenge {
         
         func phoneNumber(from inputs: [Int]) -> String {
             var phone = inputs.map(String.init).joined()
-          
-          phone.insert("-", at: phone.index(phone.startIndex, offsetBy: 3))
-          
-          phone.insert("-", at: phone.index(phone.startIndex, offsetBy: 7))
-          
-          return phone
+            phone.insert("-", at: phone.index(phone.startIndex, offsetBy: 3))
+            phone.insert("-", at: phone.index(phone.startIndex, offsetBy: 7))
+            return phone
         }
         
         let input = PublishSubject<Int>()
