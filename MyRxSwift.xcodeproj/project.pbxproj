@@ -71,6 +71,7 @@
 		C00EF5292418BDE200FF7C5C /* C0_Bind_Binder_Etc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = C0_Bind_Binder_Etc.swift; sourceTree = "<group>"; };
 		C00EF52B2418BF2C00FF7C5C /* MyRxSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyRxSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		C00EF53C24190EC000FF7C5C /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		C014AB3F242B573400A15484 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C0178612241B8E11001927A8 /* HostView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostView.swift; sourceTree = "<group>"; };
 		C0178613241B8E11001927A8 /* TimelineViewBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineViewBase.swift; sourceTree = "<group>"; };
 		C0178614241B8E11001927A8 /* Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
@@ -196,6 +197,7 @@
 		C06BEFA123F5729300D44266 = {
 			isa = PBXGroup;
 			children = (
+				C014AB3F242B573400A15484 /* README.md */,
 				C00EF53C24190EC000FF7C5C /* Log.swift */,
 				C00EF52B2418BF2C00FF7C5C /* MyRxSwift-Bridging-Header.h */,
 				C06BEFAC23F5729300D44266 /* MyRxSwift */,
