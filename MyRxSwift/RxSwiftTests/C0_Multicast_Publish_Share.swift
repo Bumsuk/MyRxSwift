@@ -16,6 +16,8 @@ import RxCocoa
 // 가장 혼란스럽게 느껴졌던 녀석들, 공유 오퍼레이터에 대해서 테스트한다.
 class Multicast_Publish_Share {
     
+    static let bag = DisposeBag()
+    
     // Observable의 시퀀스를 하나의 Subject를 통해 multicast로 전달할수 있다.(공유됨!)
     // https://brunch.co.kr/@tilltue/15
     // muticast를 사용(subject 필수) > 동일기능인 publish()를 사용하는게 더 나을듯!
@@ -87,6 +89,31 @@ class Multicast_Publish_Share {
     }
     
     // replay 사용예
+    static func test_replay_simple() {
+        print(#function)
+        
+        // 이 코드가 왜 잘 안되냐면, replay 시퀀스가 유한 시퀀스이기때문에 이 시퀀스가 종료되면, connect를 해도 의미가 없다.
+        // 차라리 share(replay:scope:)를 사용해라. 물론 스코프는 .forever로. 해야 구독완료되도 replay됨.
+        let replay3 = Observable.from([1, 2, 3, 4, 5])
+            //.share(replay: 3, scope: .forever)
+            .replay(2)
+        
+        // replay3.connect() // 여기서 connect하면 구독된게 없으니 시퀀스 방출이 안됨.
+        
+        replay3
+            .subscribe(onNext: { print("[구독1]", $0) }).disposed(by: bag)
+        replay3
+            .subscribe(onNext: { print("[구독2]", $0) }).disposed(by: bag)
+
+        replay3.connect() // 여기서 connect하면 방출됨! 하지만 5까지 방출하고 더이상 끗!
+
+        
+        replay3.subscribe(onNext: { print("[구독3]", $0) }).disposed(by: bag)
+        
+
+    }
+    
+    // replay 사용예
     static func test_replay() {
         print(#function)
 
@@ -94,16 +121,19 @@ class Multicast_Publish_Share {
             .do(onNext: { print(["[🤡onNext] \($0)"]) })
 
         // replay() 사용! 버퍼를 두어 이후 구독될때 방출된 값들을 재방출한다.
-        let replay$: ConnectableObservable<Int> = interval$.replay(3)
+        let replay$: ConnectableObservable<Int> = interval$
+            .replay(3)
+            //.replayAll() // 이건 무조건 전부다 리플레이해준다. 메모리 주의!
         
         // 역시 connect()를 해줘야 구독자들에게 시퀀스 출력됨.
         _ = replay$.connect()
+        
         
         _ = replay$.subscribe(onNext: {
             print("[구독1]", $0)
         })
 
-        _ = replay$.delaySubscription(.seconds(5), scheduler: MainScheduler.instance).subscribe(onNext: {
+        _ = replay$.delaySubscription(.seconds(15), scheduler: MainScheduler.instance).subscribe(onNext: {
             print("[구독2]", $0)
         })
 
@@ -119,7 +149,7 @@ class Multicast_Publish_Share {
         [구독2] 3
         [구독2] 4
         
-         [구독1] 5
+        [구독1] 5
         [구독2] 5
         [구독1] 6
         [구독2] 6

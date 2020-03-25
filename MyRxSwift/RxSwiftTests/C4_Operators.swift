@@ -14,9 +14,66 @@ public class C4_Operators {
     static let bag = DisposeBag()
 
     enum MyError: Error {
-        case anError
+        case anError(_ reason: String?)
     }
+     
+    // [catchError 테스트]
+    static func test_catchError() {
+        print(#function)
         
+        let someDatas = [1, 2, 3, 4, 5]
+        let publishSubject = PublishSubject<Int>()
+        publishSubject
+            .catchErrorJustReturn(1004)
+            /* 이 두가지는 다르다.
+            .catchError({ (error) in
+                Observable.just(1004) // 다른 시퀀스로 이어나가게 할수 있다.
+            })
+            */
+            .subscribe(onNext: { num in
+                print("[확인] \(num)")
+            }).disposed(by: bag)
+        
+        // 5초뒤 1초 간격으로 5번 bind 통해 onNext 처리
+        Observable<Int>
+            .timer(.seconds(5), period: .seconds(1), scheduler: MainScheduler.instance)
+            .take(5)
+            .map { idx in
+                if idx == 3 { throw MyError.anError("idx == 3 에러 발생!") }
+                return someDatas[idx]
+            }
+            .bind(to: publishSubject)
+            .disposed(by: bag)
+    }
+    
+    // [Error 전파 테스트]
+    static func test_ErorrInChain() {
+        print(#function)
+        
+        let publishSubject = PublishSubject<Int>()
+
+        _ = publishSubject.subscribe({ event in
+            print("[구독1]", event)
+        })
+        _ = publishSubject.subscribe({ event in
+            print("[구독2]", event)
+        })
+        
+        // 5초뒤 1초 간격으로 5번 bind 통해 onNext 처리
+        Observable<Int>
+            .timer(.seconds(5), period: .seconds(1), scheduler: MainScheduler.instance) // period 생략되면 1회만 방출! (헷갈리지 마라!)
+            .debug("🤡check!")
+            .take(5)
+            .map { idx in
+                if idx == 3 { throw MyError.anError("idx == 3 에러 발생!") }
+                return idx
+            }
+            .bind(to: publishSubject)
+            .disposed(by: bag)
+    }
+
+    
+    
     // [timeOut 테스트]
     // 지정시간동안 시퀀스가 방출되지 않으면 에러를 방출!
     static func test_timeout() {

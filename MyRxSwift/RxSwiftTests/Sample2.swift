@@ -13,20 +13,6 @@ public class Sample2 {
 
     static let disposeBag = DisposeBag()
     
-    // [throttle /  debounce 차이]
-    public static func test1() {
-        Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
-            .map { "throttle : \($0)" }
-            .throttle(.seconds(2), scheduler: MainScheduler.instance)
-            .subscribe(onNext: { print("[throttle] \($0)") }, onCompleted: { print(#function) })
-
-//        Observable<Int>.interval(.seconds(3), scheduler: MainScheduler.instance)
-//            .map { "debounce : \($0)" }
-//            .debounce(.seconds(2), scheduler: MainScheduler.instance)
-//            .subscribe(onNext: { print("[throttle] \($0)") }, onCompleted: { print(#function) })
-
-    }
-
     // [Observable 커스텀 생성 및 사용]
     public static func test2() {
         
@@ -253,32 +239,5 @@ public class Sample2 {
         .disposed(by: disposeBag)
     }
         
-
-    // [retry 테스트 - 간단]
-    public static func test8() {
-        enum MyError: Error {
-            case someError
-        }
-        
-        var retryCount = 0
-        
-        let someStream = Observable<Int>.create({ observer in
-            defer { retryCount += 1 }
-            if retryCount < 3 {
-                observer.on(.error(MyError.someError))
-            } else {
-                observer.onNext(7272727272)
-            }
-            return Disposables.create()
-        })
-        
-        someStream
-        .debug()
-        .retry(5)
-        .subscribe({ event in
-            print("[구독결과]", event)
-        })
-    }
-
     
 }

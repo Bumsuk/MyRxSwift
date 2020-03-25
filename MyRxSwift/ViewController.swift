@@ -30,41 +30,26 @@ class ViewController: UIViewController {
     @IBOutlet weak var btnClick: UIButton!
     var disposeBag: DisposeBag = DisposeBag()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+                   
+        // ThottleDebounce.test_throttle()
+        // ThottleDebounce.test_debounce()
+        
+        //MakeObserver_Sample.makeObserver_test1()
 
-        // Do any additional setup after loading the view.
-
-        
-        let stream1 = Observable.from([1, 2, 3, 4])
-            .map { num -> String in
-                print("🤡 변환처리!")
-                return "변환 - \(num)"
-            }
-            .share(replay: 0, scope: .whileConnected)
-            .do(onNext: { print("[stream1 - onNext] \($0)") })
-
-
-        let stream2 = stream1.flatMap { (_) -> Observable<String> in .just("stream2") }
-        let stream3 = stream1.flatMap { (_) -> Observable<String> in .just("stream3") }
-        
-        Observable.merge([stream2, stream3]).subscribe(onNext: { str in
-            print("[merge] \(str)")
-        })
-        
-//        stream2.subscribe(onNext: { print("[구독 stream2] \($0)") }).disposed(by: disposeBag)
-//        stream3.subscribe(onNext: { print("[구독 stream3] \($0)") }).disposed(by: disposeBag)
-        
-        
         // C0_Bind_Binder_Etc.test_bind_to_relays()
         
         // C0_MySnippet.test_delaySubscription()
+        // C0_MySnippet.test_debug()
         // C0_BInd_Binder_Etc.test_bind1()
         // C0_BInd_Binder_Etc.test_bind_to_relay()
 
         // Multicast_Publish_Share.test_multicast()
         // Multicast_Publish_Share.test_publish()
         // Multicast_Publish_Share.test_replay()
+        // Multicast_Publish_Share.test_replay_simple()
         // Multicast_Publish_Share.test_replayAll()
         // Multicast_Publish_Share.test_share()
         // Multicast_Publish_Share.test_share_option_test()
@@ -90,6 +75,8 @@ class ViewController: UIViewController {
         
         // C3_Relay.test_PublishRelay()
         // C3_Relay.test_BehaviorRelay()
+        C3_Relay.test_BehaviorRelay_force_sendError()
+        
         // C3_Relay.test_Challange1()
         // C3_Relay.test_Challange2()
         
@@ -97,7 +84,8 @@ class ViewController: UIViewController {
         // C4_Operators.test1()
         // C4_Challenge.exam1()
         // C4_Operators.test_timeout()
-    
+        // C4_Operators.test_catchError()
+        // C4_Operators.test_ErorrInChain()
         
         // C6_Filtering_Operator.test_No_Share()
         // C6_Filtering_Operator.test_Share()
@@ -137,13 +125,34 @@ class ViewController: UIViewController {
         // C9_Combining_Operators.test_reduce()
         // C9_Combining_Operators.test_scan()
         // C9_Combining_Operators.test_scan2()
-        //C9_Combining_Operators.test_scan_advance1()
-        
+        // C9_Combining_Operators.test_scan_advance1()
         
         // C9_Combining_Operators.test_scan_with_noZip()
         // C9_Combining_Operators.test_scan_with_Zip()
         
+        // C11_buffer.test_buffer1()
+        // C11_window.test_window1()
+        // C11_delaySubscription.test_delaySubscription()
+        // C11_Timer_Repeat_Timeout.test_timer_repeat()
+        // C11_Timer_Repeat_Timeout.test_timer_no_repeat()
+        // C11_Timer_Repeat_Timeout.test_timer_timeout()
+        // C11_Timer_Repeat_Timeout.test_timer_timeout_other()
         
+        // 스케줄러 변환 사용!!
+        // Scheduler.test_scheduler0()
+        // Scheduler.test_scheduler1()
+        
+        // ErrorRecovery.test_retry1()
+        // ErrorRecovery.test_retry2()
+
+        // ErrorRecovery.test_retryWhen1()
+        // ErrorRecovery.test_retryWhen2()
+
+        // ErrorRecovery.test_materlize()
+        // ErrorRecovery.test_materlize_simple()
+        
+        // ErrorRecovery.test_throw_error1()
+
     }
     
     

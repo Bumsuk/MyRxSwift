@@ -48,6 +48,31 @@ public class C3_Relay {
         
         print("end - 🤡")
     }
+    
+    // BehaviorRelay는 에러/완료 안되는 trait 그렇다면 강제로 bind 하여 에러를 보내면?
+    // bind 자체가 UI에서 사용하려고 만든 trait이고, 에러가 송출되는 시퀀스를 bind하면 디버그에선 fatalError!, 릴리즈에선 로그!
+    // 암튼 애초에 말이 안되는 상황이므로 고려하지 말자!
+    public static func test_BehaviorRelay_force_sendError() {
+        let relay = BehaviorRelay<String>(value: "-초기값-")
+        relay.subscribe({
+            print("[결과]", $0)
+        }).disposed(by: disposeBag)
+        
+        let stream = PublishSubject<String>()
+        _ = stream.asObserver()
+            //.catchErrorJustReturn("에러 - 복구!") // bind는 에러가 난다!@
+            .bind(to: relay)
+        
+        stream.onNext("1")
+        stream.onNext("2")
+        stream.onNext("3")
+        
+        stream.onError(MyError.anError)
+
+        print("end - 🤡")
+    }
+
+    
 
     // 당연히 AysncRelay 는 존재하지 않는다. Completed 되어야 값이 emit 되므로, Relay의 의미를 생각해보면 존재할수가 없겠지.
     
