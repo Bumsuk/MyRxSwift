@@ -20,7 +20,7 @@ public class C7_Transforming {
         Observable.from([1, 2, 3, 4])
             // .debug()
             // .filter { $0 != 3 }
-            .toArray()
+            .toArray() // 각각의 방출된 녀석들을 시퀀스가 종료될때까지 기다렸다가 하나의 배열로 한번에 방출!
             .subscribe(onSuccess: {
                 print("[구독] \($0)")
             }, onError: {

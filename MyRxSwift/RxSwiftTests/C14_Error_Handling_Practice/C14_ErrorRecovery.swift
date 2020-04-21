@@ -20,7 +20,7 @@ class ErrorRecovery {
     // 아주 중요하다!
     static func test_throw_error1() {
         print(#function)
-        
+        		
         // period 생략되면 1회만 방출! (헷갈리지 마라!)
         _ = Observable<Int>.timer(.seconds(1), period: .seconds(1), scheduler: MainScheduler.instance)
             

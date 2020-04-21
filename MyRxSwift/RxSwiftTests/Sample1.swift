@@ -11,7 +11,7 @@ import RxSwift
 
 public class Sample1 {
     public static func test1() {
-                
+                		
         Observable<Int>.empty() // 여기서의 Int 제너릭 타입은 추론이 가능하지 않으므로, 명시적으로 지정해줘야 한다. 즉, 생략이 불가능하다.
         .subscribe({
             print("[empty] \($0)")
@@ -62,9 +62,16 @@ public class Sample1 {
 //            print("[range] \($0)")
 //        }).dispose()
 
-        
-        
-        
-    }
+	
     
+}
+	
+	public static func test2() {
+		_ = Observable.from([1, 2, 3, 4])
+			.map { num in String(num) }
+			.subscribe(onNext: {
+				print("[🤿 결과] \($0)")
+			})
+	}
+
 }

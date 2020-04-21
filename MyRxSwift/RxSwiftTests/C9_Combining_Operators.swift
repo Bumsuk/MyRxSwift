@@ -360,7 +360,7 @@ public class C9_Combining_Operators {
     이 연산자는 종종 간과됩니다. 중복 서버에 연결하고 처음 응답하는 서버를 고수하는 등 몇 가지 실용적인 애플리케이션이 있습니다.
     */
     
-    // !!! 즉, 요약하면 먼저 방출되는 시퀀스의 값을 사용한다(늦은 놈은 취소!!!)
+    // !!! 즉, 요약하면 먼저 방출되는 시퀀스의 값을 끝까지! 사용한다(늦은 놈은 취소!!!)
     static func test_amb() {
         print(#function)
 
@@ -382,11 +382,11 @@ public class C9_Combining_Operators {
         //left.onError(MyError.anError)
         right.onNext("right - 쿠펜하겐1")
         left.onNext("left - 크허헣")
-        //right.onNext("right - 쿠펜하겐2")
-
+		
+        right.onNext("right - 쿠펜하겐2")
         
         // [ORIGINAL]
-//        left.onNext("left - 리스본")
+		left.onNext("left - 리스본")
 //        right.onNext("right - 쿠펜하겐")
 //        left.onNext("left - 런던")
 //        left.onNext("left - 마드리드")

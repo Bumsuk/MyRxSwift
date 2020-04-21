@@ -24,17 +24,55 @@ extension Reactive where Base: UIButton {
     }
 }
 
+extension Single {
+	func desc() { print("허") }
+}
+
+extension Completable {
+	func huh() { print("허허") }
+}
+
+extension PrimitiveSequenceType where Trait == CompletableTrait, Element == Swift.Never {
+	func ohYes() {  print("오예스!") }
+}
+
+extension Observable where Element == Result<String, Error> {
+	func mapCustom<T>(maker: @escaping ( Result<String, Error>) throws -> T) -> T {
+	
+		//return self.map(<#T##transform: (Result<String, Error>) throws -> Result##(Result<String, Error>) throws -> Result#>)
+		return self.map(maker) as! T
+		
+	}
+}
+
+
+extension Observable {
+	public func concatIfSuccess<T, R>(next: @escaping (T) -> Observable<Result<R, Error>>) -> Observable<Result<R, Error>> where T: Decodable, Element == Result<T, Error> {
+		return self.flatMapLatest { res -> Observable<Result<R, Error>> in
+			switch res {
+			case .success(let data):
+				return next(data)
+			case .failure(let error):
+				throw error
+			}
+		}
+	}
+}
+
+
 // MARK: ====
 class ViewController: UIViewController {
     @IBOutlet weak var swTemp: UISwitch!
     @IBOutlet weak var btnClick: UIButton!
     var disposeBag: DisposeBag = DisposeBag()
-    
-    
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-                   
-        // ThottleDebounce.test_throttle()
+
+		// 임의로 테스트한 항목들
+		// someDummyTest()
+		
+		ThottleDebounce.test_throttle()
         // ThottleDebounce.test_debounce()
         
         //MakeObserver_Sample.makeObserver_test1()
@@ -75,7 +113,7 @@ class ViewController: UIViewController {
         
         // C3_Relay.test_PublishRelay()
         // C3_Relay.test_BehaviorRelay()
-        C3_Relay.test_BehaviorRelay_force_sendError()
+        // C3_Relay.test_BehaviorRelay_force_sendError()
         
         // C3_Relay.test_Challange1()
         // C3_Relay.test_Challange2()
@@ -156,6 +194,46 @@ class ViewController: UIViewController {
     }
     
     
+	func someDummyTest() {
+		var optionalString = Optional("2")
+		let flattenResult = optionalString.flatMap { Int($0).flatMap { $0 } }
+		let flattenResult2 = optionalString.map { Int($0) }
+		
+		
+		let stream1 = Observable.from([1, 2, 3, 4])
+		let stream2 = Observable.of(Result<String, Error>.success("허허"))
+		
+		class MyObserver<T>: ObserverType {
+			func on(_ event: Event<T>) {
+				print("🏀[MyObserver] \(event)")
+			}
+		}
+		
+		let myObserver_Int = MyObserver<Int>()
+		let myObserver_Result = MyObserver<Result<String, Error>>()
+		
+		_ = stream1.subscribe(myObserver_Int)
+		_ = stream2.subscribe(myObserver_Result)
+		
+		
+		
+		
+		// Single<String>.create { (<#@escaping Single<String>.SingleObserver#>) -> Disposable in
+		let single = Single<String>.create { Observer in
+			Observer(.success("성공이얏!"))
+			return Disposables.create()
+		}
+		single.desc()
+		
+		let single2 = Single<Int>.create { Observer in
+			Observer(.success(7272))
+			return Disposables.create()
+		}
+		single2.desc()
+		
+	}
+
+	
     // TRACE_RESOURCES 확인
     func check_TRACE_RESOURCES() {
         #if TRACE_RESOURCES

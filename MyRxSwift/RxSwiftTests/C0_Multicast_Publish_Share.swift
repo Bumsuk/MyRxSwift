@@ -275,6 +275,7 @@ class Multicast_Publish_Share {
         })
         
         let subscription2 = share$
+			// 6초 뒤에 구독을 하면 subscription이 이 시점에는 하나도 없는 상태서 구독하므로 0부터 새로 받는다. (물론 이전 값들은 한번에 받는다)
             .delaySubscription(.seconds(6), scheduler: MainScheduler.instance)
             .subscribe { num in
             print("[구독2]", num)
@@ -288,7 +289,7 @@ class Multicast_Publish_Share {
 
         let apiServer1 = "https://echo.paw.cloud/"
         let apiServer2 = "https://api.github.com/repos/ReactiveX/RxSwift/events"
-        
+		
         // 로그 중지!
         // Logging.URLRequests = { _ in false }
         // public typealias LogURLRequest = (URLRequest) -> Bool
@@ -298,6 +299,7 @@ class Multicast_Publish_Share {
         let requests = Observable.from([apiServer1])
             .map { strURL -> URLRequest in URLRequest(url: URL(string: strURL)!) }
             .flatMap { req -> Observable<Data> in URLSession.shared.rx.data(request: req) }
+			//.asSingle()
             .share(replay: 1, scope: .forever)
             //.share(replay: 1, scope: .whileConnected) // 이 코드에서 whileConnected로 하면 replay가 동작하지 않는다. requests가 1회 emit후 dispose(complete)되므로..
         

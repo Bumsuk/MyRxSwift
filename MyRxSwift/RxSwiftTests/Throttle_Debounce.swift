@@ -29,6 +29,7 @@ public class ThottleDebounce {
     }
     
     // 이벤트를 그룹화하여 특정시간이 지난 후 하나의 이벤트만 발생하도록 한다.
+	// 즉, emit 이후 설정된 시간동안 emit이 없어야 emit 됨!
     public static func test_debounce() {
         print(#function)
         Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
