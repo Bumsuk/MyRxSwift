@@ -68,11 +68,11 @@ class ViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-
+				
 		// 임의로 테스트한 항목들
 		// someDummyTest()
 		
-		ThottleDebounce.test_throttle()
+		// ThottleDebounce.test_throttle()
         // ThottleDebounce.test_debounce()
         
         //MakeObserver_Sample.makeObserver_test1()
@@ -152,7 +152,7 @@ class ViewController: UIViewController {
         // C9_Combining_Operators.test_combineLatest()
         // C9_Combining_Operators.test_zip()
         // C9_Combining_Operators.test_combineLatest2()
-        // C9_Combining_Operators.test_latestFrom()
+        C9_Combining_Operators.test_withLatestFrom()
         // C9_Combining_Operators.test_sample()
         // C9_Combining_Operators.test_amb()
         // C9_Combining_Operators.test_merge_with_APIs()
@@ -163,6 +163,7 @@ class ViewController: UIViewController {
         // C9_Combining_Operators.test_reduce()
         // C9_Combining_Operators.test_scan()
         // C9_Combining_Operators.test_scan2()
+		// C9_Combining_Operators.test_scan3()
         // C9_Combining_Operators.test_scan_advance1()
         
         // C9_Combining_Operators.test_scan_with_noZip()
@@ -191,6 +192,9 @@ class ViewController: UIViewController {
         
         // ErrorRecovery.test_throw_error1()
 
+		// C19_unwrap.test_unwrap()
+		// C19_mapAt.test_mapAt()
+
     }
     
     
@@ -214,8 +218,6 @@ class ViewController: UIViewController {
 		
 		_ = stream1.subscribe(myObserver_Int)
 		_ = stream2.subscribe(myObserver_Result)
-		
-		
 		
 		
 		// Single<String>.create { (<#@escaping Single<String>.SingleObserver#>) -> Disposable in

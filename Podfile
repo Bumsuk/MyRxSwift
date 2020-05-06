@@ -5,18 +5,16 @@
 pod 'RxSwift', '~> 5'
 pod 'RxCocoa', '~> 5'
 
+# 추가 오퍼레이터 학습위해 설치
+pod 'RxSwiftExt', '~> 5'
+
+# Action 기능 학습위해 설치
+pod 'Action'
+
 target 'MyRxSwift' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  # Pods for MyRxSwift
-
-end
-
-target 'MyRxSwiftSub' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
-
-  # Pods for MyRxSwiftSub
+  # Pods for MyRxSwift'
 
 end
