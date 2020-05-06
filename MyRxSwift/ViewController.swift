@@ -59,7 +59,6 @@ extension Observable {
 	}
 }
 
-
 // MARK: ====
 class ViewController: UIViewController {
     @IBOutlet weak var swTemp: UISwitch!
@@ -68,11 +67,11 @@ class ViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-
+		
 		// 임의로 테스트한 항목들
 		// someDummyTest()
-		
-		ThottleDebounce.test_throttle()
+						
+		// ThottleDebounce.test_throttle()
         // ThottleDebounce.test_debounce()
         
         //MakeObserver_Sample.makeObserver_test1()
@@ -103,12 +102,18 @@ class ViewController: UIViewController {
     
         // sample1_test()
         // sample2_test()
-        
         // Sample2.test8()
+
+		// Sample2.test5()
+
         
-        // C3_Subject.test0()
-        // C3_Subject.test1()
+		// C3_Subject.test0()
+		// C3_Subject.test0_1()
+		// C3_Subject.test1()
         // C3_Subject.test2()
+		// C3_Subject.test3()
+		// C3_Subject.test3_Driver()
+		
         // C3_Subject.test3_ReplaySubject()
         
         // C3_Relay.test_PublishRelay()
@@ -118,14 +123,23 @@ class ViewController: UIViewController {
         // C3_Relay.test_Challange1()
         // C3_Relay.test_Challange2()
         
-        // C4_Operators.test_skipUntil()
-        // C4_Operators.test1()
-        // C4_Challenge.exam1()
-        // C4_Operators.test_timeout()
-        // C4_Operators.test_catchError()
-        // C4_Operators.test_ErorrInChain()
-        
-        // C6_Filtering_Operator.test_No_Share()
+        // C4_Operators_C5_Filtering_Operators.test_skipUntil()
+        // C4_Operators_C5_Filtering_Operators.test_catchError()
+        // C4_Operators_C5_Filtering_Operators.test_ErorrInChain()
+		// C4_Operators_C5_Filtering_Operators.test_timeout()
+		// C4_Operators_C5_Filtering_Operators.test_ignoreElements()
+		// C4_Operators_C5_Filtering_Operators.test_ignoreElements2()
+		// C4_Operators_C5_Filtering_Operators.test_elementAt()
+		// C4_Operators_C5_Filtering_Operators.test_elementAt_catchError()
+		// C4_Operators_C5_Filtering_Operators.test_filter()
+		// C4_Operators_C5_Filtering_Operators.test_skip()
+		// C4_Operators_C5_Filtering_Operators.test_takeWhile_takeLast()
+		// C4_Operators_C5_Filtering_Operators.test_distinctUntilChanged()
+		
+		// C5_Challenge.exam1()
+		
+		
+		// C6_Filtering_Operator.test_No_Share()
         // C6_Filtering_Operator.test_Share()
         // C6_Filtering_Operator.test_Share_Normal()
         // C6_Filtering_Operator.test_Share_Sample1()
@@ -133,40 +147,49 @@ class ViewController: UIViewController {
         
         // C7_Transforming.test_toArray()
         // C7_Transforming.test_toArray_error()
+		// C7_Transforming.test_flatMap0()
+				
         // C7_Transforming.test_map()
-        // C7_Transforming.test_flatMap1()
+        // C7_Transforming.test_flatMap()
         // C7_Transforming.test_flatMap1()
         // C7_Transforming.test_flatMap_why()
-        // C7_Transforming.test_flatMapLatest2()
-        // C7_Transforming.test_Materialize()
+        
+		// C7_Transforming.test_flatMapLatest1()
+		// C7_Transforming.test_flatMapLatest2()
+		
+		// C7_Transforming.test_Materialize()
         // C7_Challenge.exam1_starter()
         
+		
         // C9_Combining_Operators.test_startWith()
         // C9_Combining_Operators.test_concat()
         // C9_Combining_Operators.test_concat_withError()
         // C9_Combining_Operators.test_concatMap1()
         // C9_Combining_Operators.test_concatMap2()
-        // C9_Combining_Operators.test_concatMap3()
+		// C9_Combining_Operators.test_concatMap3()
+		// C9_Combining_Operators.test_concatMap4()
+		
         // C9_Combining_Operators.test_merge1()
         // C9_Combining_Operators.test_merge2()
         // C9_Combining_Operators.test_combineLatest()
         // C9_Combining_Operators.test_zip()
         // C9_Combining_Operators.test_combineLatest2()
-        // C9_Combining_Operators.test_latestFrom()
+        // C9_Combining_Operators.test_withLatestFrom()
         // C9_Combining_Operators.test_sample()
         // C9_Combining_Operators.test_amb()
         // C9_Combining_Operators.test_merge_with_APIs()
         
         // C9_Combining_Operators.test_amb_exercie()
-        // C9_Combining_Operators.test_amb_exercie2()
+		// C9_Combining_Operators.test_amb_exercie2()
         // C9_Combining_Operators.test_switchLatest()
         // C9_Combining_Operators.test_reduce()
         // C9_Combining_Operators.test_scan()
         // C9_Combining_Operators.test_scan2()
+		// C9_Combining_Operators.test_scan3()
         // C9_Combining_Operators.test_scan_advance1()
         
         // C9_Combining_Operators.test_scan_with_noZip()
-        // C9_Combining_Operators.test_scan_with_Zip()
+        C9_Combining_Operators.test_scan_with_Zip()
         
         // C11_buffer.test_buffer1()
         // C11_window.test_window1()
@@ -191,6 +214,9 @@ class ViewController: UIViewController {
         
         // ErrorRecovery.test_throw_error1()
 
+		// C19_unwrap.test_unwrap()
+		// C19_mapAt.test_mapAt()
+
     }
     
     
@@ -214,8 +240,6 @@ class ViewController: UIViewController {
 		
 		_ = stream1.subscribe(myObserver_Int)
 		_ = stream2.subscribe(myObserver_Result)
-		
-		
 		
 		
 		// Single<String>.create { (<#@escaping Single<String>.SingleObserver#>) -> Disposable in
