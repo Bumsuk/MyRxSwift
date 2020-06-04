@@ -70,7 +70,7 @@ class ViewController: UIViewController {
 		
 		// 임의로 테스트한 항목들
 		// someDummyTest()
-						
+
 		// ThottleDebounce.test_throttle()
         // ThottleDebounce.test_debounce()
         
