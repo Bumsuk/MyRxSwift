@@ -70,7 +70,7 @@ class ViewController: UIViewController {
 		
 		// 임의로 테스트한 항목들
 		// someDummyTest()
-						
+
 		// ThottleDebounce.test_throttle()
         // ThottleDebounce.test_debounce()
         
@@ -174,7 +174,11 @@ class ViewController: UIViewController {
         // C9_Combining_Operators.test_combineLatest()
         // C9_Combining_Operators.test_zip()
         // C9_Combining_Operators.test_combineLatest2()
+<<<<<<< HEAD
         // C9_Combining_Operators.test_withLatestFrom()
+=======
+        C9_Combining_Operators.test_withLatestFrom()
+>>>>>>> 5f9d20cd5aa3d9dad73df28cda97bddcad53c802
         // C9_Combining_Operators.test_sample()
         // C9_Combining_Operators.test_amb()
         // C9_Combining_Operators.test_merge_with_APIs()
