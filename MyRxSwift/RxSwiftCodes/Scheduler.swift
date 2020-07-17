@@ -29,11 +29,11 @@ public class Scheduler {
                 print("[현제 스레드(map)] \(currentQueueName())")
                 return "\(num)"
             }
-        .subscribeOn(SerialDispatchQueueScheduler.init(qos: .default))
-        .observeOn(MainScheduler.instance)
-        .subscribe { event in
-            print("[결과] \(event), 스레드 : \(currentQueueName())")
-        }
+			.subscribeOn(SerialDispatchQueueScheduler.init(qos: .default))
+			.observeOn(MainScheduler.instance)
+			.subscribe { event in
+				print("[결과] \(event), 스레드 : \(currentQueueName())")
+			}
         
         /*
         test_scheduler0()

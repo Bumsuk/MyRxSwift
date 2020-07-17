@@ -33,29 +33,29 @@ public class C5_Challenge {
         
         // Add your code here
         input
-        .debug("d-1")
+		  //.debug("d-1")
           .skipWhile { $0 == 0 } // 딱한번 true 일때 skip됨.
-        .debug("d-2")
+		  //.debug("d-2")
           .filter { $0 < 10 }
-        .debug("d-3")
+          //.debug("d-3")
           .take(10)
-        .debug("d-4")
+		  //.debug("d-4")
           .toArray()
-        .debug("d-5")
-        .subscribe({ event in
-            print("check - \(event)")
-            switch event {
-            case .success(let result):
-                let phone = phoneNumber(from: result)
-                if let contact = contacts[phone] {
-                  print("Dialing \(contact) (\(phone))...")
-                } else {
-                  print("Contact not found")
-                }
-            case .error(let error):
-                print("[error] \(error)")
-            }
-        }).disposed(by: disposeBag)
+          //.debug("d-5")
+		.subscribe({ event in
+			print("check - \(event)")
+			switch event {
+			case .success(let result):
+				let phone = phoneNumber(from: result)
+				if let contact = contacts[phone] {
+				  print("Dialing \(contact) (\(phone))...")
+				} else {
+				  print("Contact not found")
+				}
+			case .error(let error):
+				print("[error] \(error)")
+			}
+		}).disposed(by: disposeBag)
             
             
           /* 원본 코드이지만 문제가 있었다.

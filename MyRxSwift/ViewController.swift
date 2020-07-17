@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Combine
 
 // 이렇게 수동으로 확장도 가능하다.
 extension Reactive where Base: UISwitch {
@@ -67,8 +68,19 @@ class ViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+				
+        
+        
 		
 		// 임의로 테스트한 항목들
+		// sample1_test()
+		// sample2_test()
+		// Sample2.test3()
+		
+		// Sample2.test5()
+		// Sample3.test1()
+		// Sample3.test_andThen()
+		
 		// someDummyTest()
 
 		// ThottleDebounce.test_throttle()
@@ -99,13 +111,6 @@ class ViewController: UIViewController {
         
         // testNotiCenter()
         // testNotiCenterKeyboard()
-    
-        // sample1_test()
-        // sample2_test()
-        // Sample2.test8()
-
-		// Sample2.test5()
-
         
 		// C3_Subject.test0()
 		// C3_Subject.test0_1()
@@ -122,13 +127,13 @@ class ViewController: UIViewController {
         
         // C3_Relay.test_Challange1()
         // C3_Relay.test_Challange2()
-        
+		
+		// C4_Operators_C5_Filtering_Operators.test_ignoreElements()
+		// C4_Operators_C5_Filtering_Operators.test_ignoreElements2()
         // C4_Operators_C5_Filtering_Operators.test_skipUntil()
         // C4_Operators_C5_Filtering_Operators.test_catchError()
         // C4_Operators_C5_Filtering_Operators.test_ErorrInChain()
 		// C4_Operators_C5_Filtering_Operators.test_timeout()
-		// C4_Operators_C5_Filtering_Operators.test_ignoreElements()
-		// C4_Operators_C5_Filtering_Operators.test_ignoreElements2()
 		// C4_Operators_C5_Filtering_Operators.test_elementAt()
 		// C4_Operators_C5_Filtering_Operators.test_elementAt_catchError()
 		// C4_Operators_C5_Filtering_Operators.test_filter()
@@ -147,12 +152,12 @@ class ViewController: UIViewController {
         
         // C7_Transforming.test_toArray()
         // C7_Transforming.test_toArray_error()
-		// C7_Transforming.test_flatMap0()
-				
         // C7_Transforming.test_map()
+
         // C7_Transforming.test_flatMap()
-        // C7_Transforming.test_flatMap1()
-        // C7_Transforming.test_flatMap_why()
+		// C7_Transforming.test_flatMap0()
+		// C7_Transforming.test_flatMap1()
+		// C7_Transforming.test_flatMap_why()
         
 		// C7_Transforming.test_flatMapLatest1()
 		// C7_Transforming.test_flatMapLatest2()
@@ -173,6 +178,7 @@ class ViewController: UIViewController {
         // C9_Combining_Operators.test_merge2()
         // C9_Combining_Operators.test_combineLatest()
         // C9_Combining_Operators.test_zip()
+        // C9_Combining_Operators.test_combineLatest1()
         // C9_Combining_Operators.test_combineLatest2()
         // C9_Combining_Operators.test_withLatestFrom()
         // C9_Combining_Operators.test_sample()
@@ -189,7 +195,7 @@ class ViewController: UIViewController {
         // C9_Combining_Operators.test_scan_advance1()
         
         // C9_Combining_Operators.test_scan_with_noZip()
-        C9_Combining_Operators.test_scan_with_Zip()
+        // C9_Combining_Operators.test_scan_with_Zip()
         
         // C11_buffer.test_buffer1()
         // C11_window.test_window1()

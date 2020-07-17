@@ -46,6 +46,7 @@
 		C0CFAAE6241CC4DF005861B3 /* MakeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFAAE5241CC4DF005861B3 /* MakeObserver.swift */; };
 		C0CFAB0A241D0DB6005861B3 /* C11_window.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFAB08241D0DB6005861B3 /* C11_window.swift */; };
 		C0CFAB0B241D0DB6005861B3 /* C11_buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFAB09241D0DB6005861B3 /* C11_buffer.swift */; };
+		C0D6B5B624C17AD800A437AB /* Sample3.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D6B5B524C17AD700A437AB /* Sample3.swift */; };
 		C0E4FA62241795AA00CFE84A /* C0_MySnippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E4FA61241795AA00CFE84A /* C0_MySnippet.swift */; };
 		C0E4FA642417A38700CFE84A /* C0_Multicast_Publish_Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E4FA632417A38700CFE84A /* C0_Multicast_Publish_Share.swift */; };
 /* End PBXBuildFile section */
@@ -78,6 +79,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = CB4D693D1DE9A7D100DC0488;
 			remoteInfo = Wundercast;
+		};
+		C0834AC424D84AB90003EE79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C0834AC024D84AB90003EE79 /* GitFeed.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9C8332711DF73BA90067DC80;
+			remoteInfo = GitFeed;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -117,11 +125,12 @@
 		C06BEFAA23F5729300D44266 /* MyRxSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyRxSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C06BEFAD23F5729300D44266 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C06BEFAF23F5729300D44266 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C06BEFB123F5729300D44266 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		C06BEFB123F5729300D44266 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C06BEFB423F5729300D44266 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C06BEFB623F5729300D44266 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C06BEFB923F5729300D44266 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C06BEFBB23F5729300D44266 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C0834AC024D84AB90003EE79 /* GitFeed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GitFeed.xcodeproj; path = "../../../../../../../../../04_Reference/Books/00. 컴퓨터/iOS/RxSwift_Reactive_Programming_with_Swift_v3.0/08-transforming-operators-in-practice/starter_MY/GitFeed.xcodeproj"; sourceTree = "<group>"; };
 		C08FA44D24283B78007CF32F /* C14_ErrorRecovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = C14_ErrorRecovery.swift; sourceTree = "<group>"; };
 		C090172E2415DDD90076AD79 /* C9_Combining_Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = C9_Combining_Operators.swift; sourceTree = "<group>"; };
 		C092A3EB241D1525007FD45A /* C11_delaySubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = C11_delaySubscription.swift; sourceTree = "<group>"; };
@@ -135,6 +144,7 @@
 		C0CFAAE5241CC4DF005861B3 /* MakeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeObserver.swift; sourceTree = "<group>"; };
 		C0CFAB08241D0DB6005861B3 /* C11_window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = C11_window.swift; sourceTree = "<group>"; };
 		C0CFAB09241D0DB6005861B3 /* C11_buffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = C11_buffer.swift; sourceTree = "<group>"; };
+		C0D6B5B524C17AD700A437AB /* Sample3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sample3.swift; sourceTree = "<group>"; };
 		C0E4DD56244FF020008A9631 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C0E4DD58244FF065008A9631 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C0E4FA61241795AA00CFE84A /* C0_MySnippet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = C0_MySnippet.swift; sourceTree = "<group>"; };
@@ -317,6 +327,31 @@
 			path = MyRxSwift;
 			sourceTree = "<group>";
 		};
+		C0834AB924D845EB0003EE79 /* C8_Transforming_Operators */ = {
+			isa = PBXGroup;
+			children = (
+				C0834AC624D84AC70003EE79 /* GitFeed 프로젝트는 경로에서 워크스페이스로 열어라 */,
+				C0834AC024D84AB90003EE79 /* GitFeed.xcodeproj */,
+			);
+			path = C8_Transforming_Operators;
+			sourceTree = "<group>";
+		};
+		C0834AC124D84AB90003EE79 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C0834AC524D84AB90003EE79 /* GitFeed.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C0834AC624D84AC70003EE79 /* GitFeed 프로젝트는 경로에서 워크스페이스로 열어라 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "GitFeed 프로젝트는 경로에서 워크스페이스로 열어라";
+			path = "GitFeed 프로젝트는 경로에서 워크스페이스로 열어라";
+			sourceTree = "<group>";
+		};
 		C0AB2738241F182400ADA6FC /* C10_Combining_Operators_Practice */ = {
 			isa = PBXGroup;
 			children = (
@@ -332,6 +367,7 @@
 				C0C7DEAA2404BF76008FFC64 /* someText.txt */,
 				C0C7DEA12403D688008FFC64 /* Sample1.swift */,
 				C0C7DEA52403DF53008FFC64 /* Sample2.swift */,
+				C0D6B5B524C17AD700A437AB /* Sample3.swift */,
 				C0CFAAE5241CC4DF005861B3 /* MakeObserver.swift */,
 				C0AB2747241F748E00ADA6FC /* Scheduler.swift */,
 				C023A9302424CA42003D9001 /* Throttle_Debounce.swift */,
@@ -345,6 +381,7 @@
 				C0096926240D445C000F0AD8 /* C6_Filtering_Operators_Practice.swift */,
 				C09742A6241348E200AAD70A /* C7_Transforming_Operators.swift */,
 				C050431C2413915F00F26377 /* C7_Challenge.swift */,
+				C0834AB924D845EB0003EE79 /* C8_Transforming_Operators */,
 				C090172E2415DDD90076AD79 /* C9_Combining_Operators.swift */,
 				C0AB2738241F182400ADA6FC /* C10_Combining_Operators_Practice */,
 				C0178611241B8DB5001927A8 /* C11_Time-Based Operators */,
@@ -441,6 +478,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = C0834AC124D84AB90003EE79 /* Products */;
+					ProjectRef = C0834AC024D84AB90003EE79 /* GitFeed.xcodeproj */;
+				},
+				{
 					ProductGroup = C026D224244EFBB9008226FA /* Products */;
 					ProjectRef = C026D223244EFBB9008226FA /* iGif.xcodeproj */;
 				},
@@ -487,6 +528,13 @@
 			fileType = wrapper.application;
 			path = Wundercast.app;
 			remoteRef = C034FB58244F044100C4C114 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C0834AC524D84AB90003EE79 /* GitFeed.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GitFeed.app;
+			remoteRef = C0834AC424D84AB90003EE79 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -570,6 +618,7 @@
 				C017861C241B8E11001927A8 /* SupportCode.swift in Sources */,
 				C0613C47244FC4C70016C7C3 /* C19_unwrap.swift in Sources */,
 				C017861B241B8E11001927A8 /* StackView.swift in Sources */,
+				C0D6B5B624C17AD800A437AB /* Sample3.swift in Sources */,
 				C0096927240D445C000F0AD8 /* C6_Filtering_Operators_Practice.swift in Sources */,
 				C050431E2413915F00F26377 /* C7_Challenge.swift in Sources */,
 				C00EF53D24190EC000FF7C5C /* Log.swift in Sources */,

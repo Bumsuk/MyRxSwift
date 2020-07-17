@@ -63,9 +63,9 @@ public class C9_Combining_Operators {
     static func test_concatMap1() {
         print(#function)
 
-        let stream1 = Observable.from([Int](repeatElement(1, count: 1000)))
-        let stream2 = Observable.from([Int](repeatElement(2, count: 1000)))
-	
+        let stream1 = Observable.from([Int](repeatElement(1, count: 5)))
+        let stream2 = Observable.from([Int](repeatElement(2, count: 5)))
+	        
         Observable.from([stream1, stream2])
             .concatMap { $0 } // flatMap으로 바꿔서 해보자! 순서가 섞인다!!!
             .subscribe(onNext: {
@@ -141,9 +141,9 @@ public class C9_Combining_Operators {
                 print("[결과1] \(event)")
             }).disposed(by: bag)
         		
-		repeat {
-			print("-")
-		} while true
+//		repeat {
+//			print("-")
+//		} while true
 	
         let source = Observable
             .merge(left, right)
@@ -155,6 +155,10 @@ public class C9_Combining_Operators {
         left.onNext("left - 가")
         left.onNext("left - 나")
         right.onNext("right - 다")
+        
+        // merge된 스트림 둘다 completed 되어야 이를 합친 스트림(someStream, source)도 completed 된다.
+//        left.onCompleted()
+//        right.onCompleted()
         
         print("check - end 👺")
     }
@@ -216,8 +220,7 @@ public class C9_Combining_Operators {
         let right = PublishSubject<String>()
         
         // combineLatest의 요소는 같은 타입일 필요가 없다!!
-        let source = Observable.combineLatest(left, right)
-        
+        let source = Observable.combineLatest(left.asObservable(), right)
         source
             .startWith(("초기값", "입니다!")) // 이렇게 초기값을 지정할수 있다!
         	// 이렇게 필터링도 가능(당연)
@@ -241,7 +244,7 @@ public class C9_Combining_Operators {
     // combineLatest의 resultSelector를 사용한 예 > startWith 로 안해도 초기값이 제공됨?
     static func test_combineLatest2() {
         print(#function)
-        
+                
         let choice: Observable<DateFormatter.Style> = .of(.short, .long) // 스타일 2개를 emit
         let dates = Observable.of(Date()) // 날짜 1개만 emit 하지만, combineLatest 니까 최신값 1:1 Pair된다!
         
@@ -424,7 +427,8 @@ public class C9_Combining_Operators {
 			.toArray()
         
         _ = requests.subscribe(onSuccess: { streams in
-            _ = Observable.amb(streams).subscribe(onNext: { (data: Data) in
+            _ = Observable.amb(streams)
+            .subscribe(onNext: { (data: Data) in
                 print("[amb 결과] data : \(data)")
             })
         }) { err in
@@ -440,8 +444,8 @@ public class C9_Combining_Operators {
         print(#function)
 
         // stream1,2 는 1 or 2초 딜레이가 랜덤으로 정해지고, 이에따라 amb 연산자로 먼저 값을 방출하는 시퀀스가 샤용됨!
-        let stream1 = Observable<Int>.interval(.seconds(Int.random(in: 1...2)), scheduler: MainScheduler.instance).take(1).map { "stream1 : \($0+1)" }
-        let stream2 = Observable<Int>.interval(.seconds(Int.random(in: 1...2)), scheduler: MainScheduler.instance).take(1).map { "stream2 : \($0+1)" }
+        let stream1 = Observable<Int>.interval(.seconds(Int.random(in: 1...2)), scheduler: MainScheduler.instance).take(5).map { "stream1 : \($0+1)" }
+        let stream2 = Observable<Int>.interval(.seconds(Int.random(in: 1...2)), scheduler: MainScheduler.instance).take(5).map { "stream2 : \($0+1)" }
         
         _ = stream1
             //.debug()
@@ -466,12 +470,11 @@ public class C9_Combining_Operators {
         
         // 요소가 Observable 타입이다.
         let source = PublishSubject<Observable<String>>()
-        
+                
         // 2 : switchLatest()
         let observable = source.switchLatest()
         // 이 둘은 같은 동작이다.
         //let observable = source.flatMapLatest { (sequence) in sequence }
-        
         
         // 구독은 소스 옵저버 블에 푸시 된 최신 순서의 항목 만 인쇄합니다. 이것이 switchLatest ()의 목적입니다.
         let disposable = observable.subscribe { value in

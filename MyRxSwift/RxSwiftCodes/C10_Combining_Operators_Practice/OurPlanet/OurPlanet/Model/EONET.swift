@@ -30,6 +30,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+// 네트워크 서비스 클래스
 class EONET {
   static let API = "https://eonet.sci.gsfc.nasa.gov/api/v2.1"
   static let categoriesEndpoint = "/categories"
@@ -45,7 +46,7 @@ class EONET {
   static func filteredEvents(events: [EOEvent], forCategory category: EOCategory) -> [EOEvent] {
     return events.filter { event in
       return event.categories.contains(where: { $0.id == category.id })
-             && !category.events.contains { $0.id == event.id }
+        && !category.events.contains { $0.id == event.id }
     }
     .sorted(by: EOEvent.compareDates)
   }
@@ -75,7 +76,7 @@ class EONET {
       let request = URLRequest(url: finalURL)
       return URLSession.shared.rx.response(request: request)
         //.do(onNext: { _, data in print("[통신확인🤡] data : \(data.count)") })
-        .map { response, data in
+        .map { response, data -> T in
           if let date = response.allHeaderFields["Date"] as? String {
             print("[❤️서버에 요청한 시간❤️] \(date)")
           }
@@ -90,6 +91,7 @@ class EONET {
     }
   }
   
+  // 일종의 싱글톤 시퀀스 {}()로 1회 할당
   static var categories: Observable<[EOCategory]> = {
     let request: Observable<[EOCategory]> = EONET.request(endpoint: categoriesEndpoint, contentIdentifier: "categories")
     return request

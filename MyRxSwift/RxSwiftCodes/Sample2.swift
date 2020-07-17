@@ -41,6 +41,7 @@ public class Sample2 {
 
     
     // deferred를 사용한 옵저버블 팩토리 사용 > 거의 사용을 하지는 않았는데 사용할 때도 있겠지??
+	// 구독할때마다 상황에 맞는 시퀀스를 반환하는데 사용한다.
     public static func test3() {
         var flip: Bool = false
     
@@ -71,7 +72,7 @@ public class Sample2 {
         enum FileReadError: Error {
             case fileNotFound, unReadable, encodingFailed
         }
-        
+        		
 //        Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
 //        //.flatMap(<#T##selector: (Int) throws -> ObservableConvertibleType##(Int) throws -> ObservableConvertibleType#>)
 //        .flatMap({

@@ -17,6 +17,50 @@ public class C4_Operators_C5_Filtering_Operators {
         case anError(_ reason: String?)
     }
      
+	// [ignoreElement 테스트]
+	static func test_ignoreElements() {
+		print(#function)
+
+		#if true
+		let strike = PublishSubject<String>()
+		let ignore = strike.ignoreElements()
+		ignore
+			.subscribe(onCompleted: { print("[completed!]") }, onError: { print("[error] \($0)") })
+			.disposed(by: bag)
+				
+		strike.onNext("x")
+		strike.onNext("x")
+		strike.onNext("x")
+		strike.onCompleted() // complete 이벤트가 발생해야 ignore 구독 결과가 표시됨!
+		
+		print("🤡check!")
+		#else
+		Observable.from([1, 2, 3])
+			.ignoreElements()
+			.subscribe(onCompleted: {
+				print("[onCompleted]")
+			}, onError: {
+				print("[onError]", $0)
+			}).disposed(by: bag)
+		#endif
+	}
+	
+	// 이 예제가 더 알기 쉽다 > 방출되는 것들을 무시하고 완료될때 complete 방출!
+	static func test_ignoreElements2() {
+		print(#function)
+		
+		_ = Observable<Int>.timer(.seconds(0), period: .seconds(1), scheduler: MainScheduler.instance)
+			.take(10)
+			.debug()
+			.ignoreElements()
+			.subscribe(onCompleted: {
+				print("[10번 take, ignoreElements 완료!] 10초동안 아무것도 방출되지 않았음!")
+			}, onError: { err in
+				print("[error] \(err)")
+			})
+	}
+
+	
     // [catchError 테스트]
     static func test_catchError() {
         print(#function)
@@ -95,35 +139,6 @@ public class C4_Operators_C5_Filtering_Operators {
         [구독결과] error(Sequence timeout.)
         */
     }
-    
-    // [ignoreElement 테스트]
-    static func test_ignoreElements() {
-        print(#function)
-        
-        Observable.from([1, 2, 3])
-            .ignoreElements()
-            .subscribe(onCompleted: {
-                print("[onCompleted]")
-            }, onError: {
-                print("[onError]", $0)
-            }).disposed(by: bag)
-    }
-	
-	// 이 예제가 더 알기 쉽다 > 방출되는 것들을 무시하고 완료될때 complete 방출!
-	static func test_ignoreElements2() {
-		print(#function)
-		
-		_ = Observable<Int>.timer(.seconds(0), period: .seconds(1), scheduler: MainScheduler.instance)
-			.take(10)
-			.debug()
-			.ignoreElements()
-			.subscribe(onCompleted: {
-					print("[10번 take, ignoreElements 완료!] 10초동안 아무것도 방출되지 않았음!")
-				}, onError: { err in
-					print("[error] \(err)")
-				})
-	}
-
 	
     // [elementAt 테스트 + catchError 테스트]
     static func test_elementAt_catchError() {
@@ -149,7 +164,7 @@ public class C4_Operators_C5_Filtering_Operators {
 
         let strikes = PublishSubject<String>()
         strikes
-            .elementAt(1)
+            .elementAt(1) // 두번째 값만 방출하고 '종료!' 시킴
             .subscribe({ event in
                 print("[구독] \(event)")
             }).disposed(by: bag)
@@ -158,6 +173,11 @@ public class C4_Operators_C5_Filtering_Operators {
         strikes.onNext("X2")
         strikes.onNext("X3")
     }
+	/*
+	test_elementAt()
+	[구독] next(X2)
+	[구독] completed
+	*/
         
     // [filter 사용의 예]
     static func test_filter() {
@@ -211,7 +231,7 @@ public class C4_Operators_C5_Filtering_Operators {
         print(#function)
 
         let subject = PublishSubject<String>()
-        let trigger = PublishSubject<String>() // 얘는 말그래도 트리거 역할만함.
+        let trigger = PublishSubject<String>() // 얘는 말그대로 트리거 역할만함.
         
         subject
             .skipUntil(trigger) // tirgger 가 emit 할때까지 subject의 onNext 발동이 안됨.
@@ -275,7 +295,7 @@ public class C4_Operators_C5_Filtering_Operators {
             }).disposed(by: bag)
     }
     
-    // [takeUntil 사용의 예] > 방식은 skipUntil 과 똑같다.
+    // [takeUntil 사용의 예] > 방식은 skipUntil과 반대.
     // 생략
         
     // [distinctUntilChanged 사용예 #1]

@@ -40,7 +40,6 @@ class DownloadView: UIStackView {
     if let superview = superview {
       backgroundColor = UIColor.white
       bottomAnchor.constraint(equalTo: superview.bottomAnchor).isActive = true
-
       leftAnchor.constraint(equalTo: superview.leftAnchor).isActive = true
       rightAnchor.constraint(equalTo: superview.rightAnchor).isActive = true
       heightAnchor.constraint(equalToConstant: 38).isActive = true

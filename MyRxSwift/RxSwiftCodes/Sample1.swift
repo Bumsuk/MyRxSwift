@@ -10,11 +10,12 @@ import Foundation
 import RxSwift
 
 public class Sample1 {
+	static let disposeBag = DisposeBag()
     public static func test1() {
         Observable<Int>.empty() // 여기서의 Int 제너릭 타입은 추론이 가능하지 않으므로, 명시적으로 지정해줘야 한다. 즉, 생략이 불가능하다.
         .subscribe({
             print("[empty] \($0)")
-        })
+			}).disposed(by: disposeBag)
         
 //        Observable<Int>.empty()
 //        .subscribe(onNext: { _ in

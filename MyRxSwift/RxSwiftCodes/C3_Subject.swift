@@ -115,7 +115,7 @@ public class C3_Subject {
             }).disposed(by: disposeBag)
         
         subject.onCompleted()
-        		
+		        		
         // 수동 dispose
         ticket.dispose()
     }
@@ -131,10 +131,10 @@ public class C3_Subject {
         func printCustom<T: CustomStringConvertible>(label: String, event: Event<T>) {
             print(label, (event.element ?? event.error) ?? event)
         }
-        
+		        
         let subject = BehaviorSubject(value: "=default=")
         let disposeBag = DisposeBag()
-    
+    	
         subject.on(.next("크"))
         subject.on(.next("흐"))
         subject.on(.next("호"))
@@ -149,8 +149,10 @@ public class C3_Subject {
     }
 
     
-    // Relay 종류별 테스트 - Subject에서 trait 화한 녀석으로, .completed / .error 를 방출하지 않는다. 값만(.next) 방출하는 전용
+    // Relay 종류별 테스트 - Subject에서 trait 화한 녀석으로, .completed / .error 를 방출하지 않는다. 값만(.next) 방출하는 전용, 종료되지 않음!
     public static func test3() {
+		print(#function)
+
         let relay = BehaviorRelay<String>(value: "=Default=")
 		
 		relay.accept("가")
@@ -158,6 +160,8 @@ public class C3_Subject {
         
         relay.dispose_()
         
+		print("[value 프로퍼티 값 확인] \(relay.value)")
+		
         relay.subscribe({
             print("[relay 결과] \($0)")
         })
@@ -192,7 +196,7 @@ public class C3_Subject {
         enum MyError: Error {
             case anError
         }
-        
+		
         let subject = ReplaySubject<String>.create(bufferSize: 2)
         let disposeBag = DisposeBag()
         
@@ -210,20 +214,17 @@ public class C3_Subject {
 
         subject.onNext("4")
         subject.onError(MyError.anError)
-        subject.dispose()
+        //subject.dispose()
         
         subject.onNext("55555")
         
         subject.subscribe {
             print("[3] \($0)")
         }.disposed(by: disposeBag)
-
         
         subject.subscribe {
             print("[4] \($0)")
         }.disposed(by: disposeBag)
-
-        
     }
 }
 

@@ -41,30 +41,33 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
   
   override func viewDidLoad() {
     super.viewDidLoad()
-        
+    
     setupUI()
     
     // 여기서 asObservable() 오퍼레이터가 꼭 필요할까? subject에서 변환한다는 의도를 명확히 하기 위해서?? 
     categories
       .asObservable()
       // 여기서의 subscribe는 트리거 역할은 아니다. categories가 BehaviorRelay 이므로 이 시점에서는 [] 값만 전달받는다.
+      .observeOn(MainScheduler.instance)
     	.subscribe(onNext: { [weak self] categories in
         print("[⚡️⚡️⚡️⚡️카테고리 리스트 데이터 획득(\(categories.count))⚡️]")
-        DispatchQueue.main.async {
           self?.tableView.reloadData()
-        }
       }).disposed(by: bag)
     
     startDownload()
   }
 
   func startDownload() {
+    // 왜 EONET.categories가 share(replay: 1, scope: .forever) 인지를 확실히 이해해야 한다!!
     let eoCategories: Observable<[EOCategory]> = EONET.categories
-    let downloadedEvents: Observable<[EOEvent]> = eoCategories.flatMap { categories in
-      return Observable.from(categories.map { EONET.events(forLast: daysForRequest, category: $0) })
-      }.merge() // 배열안의 여러개 시퀀스들을 하나의 시퀀스로 합쳐줌!
+    // downloadedEvents는 카테고리별 이벤트 묶음들이 방출됨.
+    let downloadedEvents: Observable<[EOEvent]> = eoCategories
+      .flatMap { (categories: [EOCategory]) -> Observable<Observable<[EOEvent]>> in
+        return Observable.from(categories.map { EONET.events(forLast: daysForRequest, category: $0) })
+      }
+      .merge() // 배열안의 여러개 시퀀스들을 하나의 시퀀스로 합쳐줌!
       //.merge(maxConcurrent: 1) // 동시에 몇개의 시퀀스(여기선 API 통신)를 허용할지 선택! 매우 중요함!
-
+    
     let updatedCategories = eoCategories.flatMap { categories in
       // 이 scan도 아주 유용하다!
       downloadedEvents.scan(categories, accumulator: { updated, events in
@@ -78,7 +81,8 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
           return category
         }
       })
-    }.do(onCompleted: { [weak self] in
+    }
+    .do(onCompleted: { [weak self] in
       DispatchQueue.main.async {
         self?.activityIndicator.stopAnimating()
       }
@@ -103,7 +107,6 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
     })
     .disposed(by: bag)
 
-    
     eoCategories
       .concat(updatedCategories)
       .bind(to: self.categories) // bind!!!! 아주 중요함!!!!! >> 일종의 subscription이 발생된다! 그래서 disposable이 반환되는것임!
@@ -121,13 +124,12 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
     // 챌린지 2-1 방식 사용
     view.addSubview(download)
     view.layoutIfNeeded()
-
     
     let refreshControl = UIRefreshControl()
     refreshControl.backgroundColor = UIColor(white: 0.98, alpha: 1.0)
     refreshControl.tintColor = UIColor.darkGray
     refreshControl.attributedTitle = NSAttributedString(string: "🦊 Pull to refresh 🤡")
-
+    
     refreshControl.rx.controlEvent(.valueChanged)
       .subscribe(onNext: { [weak self] in
         self?.startDownload()
@@ -136,8 +138,10 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
     
     self.tableView.refreshControl = refreshControl
   }
-  
-  // MARK: UITableViewDataSource
+}
+
+// MARK: UITableViewDataSource
+extension CategoriesViewController {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return categories.value.count
   }
@@ -150,7 +154,7 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
     
     cell.textLabel?.text = "◦ \(category.name)"  + " (\(category.events.count))"
     cell.accessoryType = eventCounts > 0 ? .disclosureIndicator : .none
-        
+    
     return cell
   }
   
@@ -166,4 +170,5 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
     eventController.events.accept(category.events)
     navigationController?.pushViewController(eventController, animated: true)
   }
+
 }

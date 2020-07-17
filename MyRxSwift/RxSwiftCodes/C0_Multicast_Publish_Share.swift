@@ -37,6 +37,9 @@ class Multicast_Publish_Share {
             print("[구독1]", $0)
         })
 
+		
+		connectable$.asDriver(onErrorJustReturn: 0)
+		
         _ = connectable$.subscribe(onNext: {
             print("[구독2]", $0)
         })
@@ -105,10 +108,10 @@ class Multicast_Publish_Share {
         replay3
             .subscribe(onNext: { print("[구독2]", $0) }).disposed(by: bag)
 
-        replay3.connect() // 여기서 connect하면 방출됨! 하지만 5까지 방출하고 더이상 끗!
+        // replay3.connect() // 여기서 connect하면 방출됨! 하지만 5까지 방출하고 더이상 끗!
 
         
-        replay3.subscribe(onNext: { print("[구독3]", $0) }).disposed(by: bag)
+        // replay3.subscribe(onNext: { print("[구독3]", $0) }).disposed(by: bag)
         
 
     }
@@ -216,12 +219,14 @@ class Multicast_Publish_Share {
     static func test_share() {
         print(#function)
 
-        let interval$ = Observable<Int>
+		let interval$ = Observable<Int>
 			.interval(.seconds(1), scheduler: MainScheduler.instance)
+			.take(5)
+			.debug("[interval$]", trimOutput: false)
             .do(onNext: { print(["[🤡onNext] \($0)"]) })
             
         // ConnectableObservable 이 아니라, Observable 타입이다! 즉, connect가 필요없다.
-        let share$: Observable<Int> = interval$.share()
+		let share$: Observable<Int> = interval$.share(replay: 3).subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .default))
 
         let subscription1 = share$.subscribe { num in
             print("[구독1]", num)
@@ -231,23 +236,14 @@ class Multicast_Publish_Share {
             print("[구독2]", num)
         }
         
-        DispatchQueue.main.asyncAfter(wallDeadline: .now()+5, execute: {
-            subscription1.dispose()
-        })
-        
-        /*
-        test_share()
-        ["[🤡onNext] 0"]
-        [구독1] next(0)
-        [구독2] next(0)
-        ["[🤡onNext] 1"]
-        [구독1] next(1)
-        [구독2] next(1)
-        ["[🤡onNext] 2"]
-        [구독1] next(2)
-        [구독2] next(2)
-        */
-    }
+		DispatchQueue.main.asyncAfter(deadline: .now()+3, execute: {
+			share$.subscribe { event in
+				print("[4초뒤 구독] \(event)")
+			}
+		})
+		
+		
+	}
     
     // share를 사용할때 옵션 테스트
     static func test_share_option_test() {

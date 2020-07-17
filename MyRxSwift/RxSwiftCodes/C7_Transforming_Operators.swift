@@ -10,6 +10,35 @@ import Foundation
 import RxCocoa
 import RxSwift
 
+
+class Student<T> {
+	typealias Value = (School, T?)
+	
+	enum School {
+		case girl, man
+	}
+	var school: School
+	var score: BehaviorSubject<T>
+	var value: Value {
+		return (school, try? score.value())
+	}
+	
+	init(score: BehaviorSubject<T>) {
+		self.score = score
+		self.school = .girl
+	}
+	deinit {
+		print("[🦹‍♂️Student 객체 deint!]")
+	}
+}
+
+
+extension Student: ObservableConvertibleType {
+	func asObservable() -> Observable<Value> {
+		return .of(value)
+	}
+}
+
 // transforming 연산자들을 테스트한다.
 public class C7_Transforming {
     static let bag = DisposeBag()
@@ -56,6 +85,7 @@ public class C7_Transforming {
     
     
     static func test_map() {
+		print(#function)
         let formatter = NumberFormatter()
         formatter.numberStyle = .spellOut
 
@@ -68,7 +98,7 @@ public class C7_Transforming {
             .flatMap({
                 Observable.of("\($0.index)__\($0.element)")
             })
-            .toArray()
+			.toArray()
             .subscribe({ print("[구독] \($0)") })
             // .toArray()
             // .subscribe(onSuccess: { print("[map 구독] \($0)") })
@@ -81,14 +111,13 @@ public class C7_Transforming {
         Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
             .debug()
 			.take(10)
-
             // .flatMap(<#T##selector: (Int) throws -> ObservableConvertibleType##(Int) throws -> ObservableConvertibleType#>)
             .flatMap { (num) -> Observable<String> in
                 print("flatMap 처리 구간----")
                 if num % 2 == 0 {
-                    return Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).map { _ in "[짝수] \(num * 2)" }.skip(1).take(1)
+                    return Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).map { _ in "[짝수] \(num * 2)" }//.skip(1).take(1)
                 } else {
-                    return Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).map { _ in "[홀수] \(num * 3)" }.skip(1).take(1)
+                    return Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance).map { _ in "[홀수] \(num * 3)" }//.skip(1).take(1)
                 }
             }.subscribe(onNext: {
                 print("[구독] \($0)")
@@ -110,24 +139,15 @@ public class C7_Transforming {
     }
     
 
-    class Student<T> {
-        var score: BehaviorSubject<T>
-        init(score: BehaviorSubject<T>) {
-            self.score = score
-        }
-        deinit {
-            print("[🦹‍♂️Student 객체 deint!]")
-        }
-    }
 
     // 매우 중요!
     static func test_flatMap() {
 		print(#function)
 
-        let laura = Student(score: BehaviorSubject(value: 80))
-        let charlotte = Student(score: BehaviorSubject(value: 90))
-        
-        let studentSubject = PublishSubject<Student<Int>>()
+        let laura = Student<Int>(score: BehaviorSubject(value: 80))
+        let charlotte = Student<Int>(score: BehaviorSubject(value: 90))
+		
+		let studentSubject = PublishSubject<Student<Int>>()
         
         studentSubject
             //.skip(1)
@@ -145,8 +165,8 @@ public class C7_Transforming {
         laura.score.onNext(88)
 		
 //        studentSubject.onNext(laura)
-//		studentSubject.onNext(charlotte)
-//        charlotte.score.onNext(100)
+		studentSubject.onNext(charlotte)
+        charlotte.score.onNext(100)
         
         // 공유가 된다!!!! 공유가!!!!
         laura.score.onNext(88888)
@@ -162,7 +182,7 @@ public class C7_Transforming {
         let studentSubject = PublishSubject<Student<Int>>()
         
         studentSubject
-            .flatMapLatest { $0.score } // !!flatMapLatest 이므로, 이전 시퀀스는 무시된다.
+			.flatMapLatest { $0 } // !!flatMapLatest 이므로, 이전 시퀀스는 무시된다.
             .subscribe(onNext: {
                 print("[구독] \($0)")
             })
@@ -199,12 +219,11 @@ public class C7_Transforming {
         DispatchQueue.main.asyncAfter(deadline: .now()+5, execute: {
             subject.onNext(stream2)
         })
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now()+10, execute: {
             subject.onNext(stream1)
         })
 
-        
         print("🤡check - end")
     }
     
@@ -220,16 +239,17 @@ public class C7_Transforming {
         
         let student = BehaviorSubject(value: laura)
      
-        let studentScore = student.flatMapLatest { $0.score }
-        studentScore
-            .subscribe(onNext: {
-                print("[구독]", $0)
-            }).disposed(by: bag)
-        
+		student.flatMapLatest {
+			$0.score.materialize()
+		}
+		.subscribe(onNext: {
+			print("[구독]", $0)
+		}).disposed(by: bag)
+		
         laura.score.onNext(81)
         laura.score.onError(MyError.anError)
-
-        
+		laura.score.onNext(82)
+		
         print("🤡check - end!")
     }
     
@@ -239,7 +259,14 @@ public class C7_Transforming {
         print(#function)
         
         Observable.from([1, 2, 3])
-            .materialize()
+			.materialize() // Observable<Event<Int>> 로 변경!
+			.filter({ event -> Bool in
+				guard event.error == nil else {
+					return false
+				}
+				return true
+			})
+			
         	//.subscribe(onNext: <#T##((Event<Int>) -> Void)?##((Event<Int>) -> Void)?##(Event<Int>) -> Void#>)
             .subscribe(onNext: { event in
                 print("[구독]", event)

@@ -19,6 +19,8 @@ public class C3_Relay {
     }
 
     public static func test_PublishRelay() {
+		print(#function)
+
         let relay = PublishRelay<String>() // Relay는 각각의 Subject들을 랩핑하고 있다. 종료없음/에러없음!
         relay.accept("가")
         
@@ -34,6 +36,8 @@ public class C3_Relay {
     }
     
     public static func test_BehaviorRelay() {
+		print(#function)
+
         let relay = BehaviorRelay<String>(value: "-초기값-")
         relay.accept("1")
         relay.accept("2")
@@ -53,6 +57,8 @@ public class C3_Relay {
     // bind 자체가 UI에서 사용하려고 만든 trait이고, 에러가 송출되는 시퀀스를 bind하면 디버그에선 fatalError!, 릴리즈에선 로그!
     // 암튼 애초에 말이 안되는 상황이므로 고려하지 말자!
     public static func test_BehaviorRelay_force_sendError() {
+		print(#function)
+
         let relay = BehaviorRelay<String>(value: "-초기값-")
         relay.subscribe({
             print("[결과]", $0)
@@ -139,7 +145,7 @@ public class C3_Relay {
           })
           .disposed(by: disposeBag)
         
-        deal(1)
+        deal(2)
 
 		// print("check - ", cards)
     }
@@ -169,9 +175,9 @@ public class C3_Relay {
         }).disposed(by: disposeBag)
         
     
-        func logInWith(username: String, password: String, completion: (Error?) -> Void) {
+        func logInWith(username: String, password: String, completion: ((Error?) -> Void)? ) {
           guard username == "johnny@appleseed.com", password == "appleseed" else {
-            completion(LoginError.invalidCredentials)
+            completion?(LoginError.invalidCredentials)
             return
           }
           

@@ -40,8 +40,9 @@ struct EOEnvelope<Content: Decodable>: Decodable {
 
 	let content: Content
 
-  // 열거형으로 안해도 당연히 문제 없는데, 100% 이해는 안간다 ㅜㅜ
+  // 열거형으로 안해도 당연히 문제 없는데, 생성자 및 프로퍼티 구현이 필요! (stringValue, intValue)
   // 암튼 수신받은 json 데이터에서 해당 키를 디코딩해서 객체화할때 사용함.
+  // 열거형으로 CodingKey 프로토콜 준수하도록 하는 것이 편함.
 	private struct CodingKeys: CodingKey {
 		var stringValue: String
 		var intValue: Int? = nil
