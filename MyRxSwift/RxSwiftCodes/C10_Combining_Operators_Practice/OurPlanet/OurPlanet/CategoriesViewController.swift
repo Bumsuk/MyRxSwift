@@ -57,6 +57,7 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
     startDownload()
   }
 
+  // 화이또!
   func startDownload() {
     // 왜 EONET.categories가 share(replay: 1, scope: .forever) 인지를 확실히 이해해야 한다!!
     let eoCategories: Observable<[EOCategory]> = EONET.categories
